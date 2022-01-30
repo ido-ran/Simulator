@@ -63,14 +63,21 @@ export const RobotView = () => {
             label="Color Sensors"
             value={sensors.colorSensors.length}
           />
-          {sensors.colorSensors.map((sensor) => (
-            <StatusTile
-              variant={StatusTileVariant.active}
-              label={sensor.mountFaceName}
-              sublabel={`Channel: ${sensor.channel}`}
-              value={`n/a`}
-            />
-          ))}
+          {sensors.colorSensors.map((sensor) => {
+            const colorVal = robotHandle.getComplexSensorValue(
+              sensor.channel,
+              "ColorSensor"
+            );
+            const color = colorVal.color;
+            return (
+              <StatusTile
+                variant={StatusTileVariant.active}
+                label={sensor.mountFaceName}
+                sublabel={`Channel: ${sensor.channel}`}
+                value={`${color ?? "none"}`}
+              />
+            );
+          })}
         </div>
 
         <div className="robot-view--stats">
